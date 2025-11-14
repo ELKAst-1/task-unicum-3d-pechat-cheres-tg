@@ -5,10 +5,11 @@ from bot.utils.states import AdminStates
 
 async def admin_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Главное меню администратора"""
+    from bot.utils.config import ADMIN_CHAT_IDS
+
     user = update.effective_user
-    admin_username = context.bot_data.get('admin_username')
-    
-    if user.username != admin_username:
+
+    if user.id not in ADMIN_CHAT_IDS:
         await update.message.reply_text("У вас нет прав администратора.")
         return ConversationHandler.END
     

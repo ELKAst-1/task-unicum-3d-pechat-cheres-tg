@@ -17,11 +17,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     else:
         await update.message.reply_text(
-            f"Привет, {user.first_name}!\n\n"
-            f"Я помогу вам создать заявку на 3D-печать.\n"
-            f"Используйте /new_request для создания новой заявки."
-        )
-    
+    f"Привет, {user.first_name}!\n\n"
+    f"Я помогу вам создать заявку на 3D-печать.\n\n"
+    f"🛠️ Доступные команды:\n"
+    f"• /new_request — создать новую заявку\n"
+    f"• /my_requests — посмотреть ваши заявки\n"
+    f"• /cancel — отменить текущее действие\n\n"
+    f"Начните с /new_request, когда будете готовы!"
+)
     return ConversationHandler.END
 
 async def new_request(update: Update, context: ContextTypes.DEFAULT_TYPE):

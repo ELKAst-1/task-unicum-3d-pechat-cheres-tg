@@ -7,8 +7,9 @@ import uuid
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
-    
-    if user.username == context.bot_data.get('admin_username'):
+    from bot.utils.config import ADMIN_CHAT_IDS
+
+    if user.id in ADMIN_CHAT_IDS:
         await update.message.reply_text(
             f"Привет, {user.first_name}!\n\n"
             f"Вы вошли как администратор.\n"
@@ -136,22 +137,21 @@ async def get_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"Вы получите уведомление при изменении статуса."
         )
         
-        admin_username = context.bot_data.get('admin_username')
-        if admin_username:
-            admin_user_id = context.bot_data.get('admin_user_id')
-            if admin_user_id:
-                try:
-                    await context.bot.send_message(
-                        chat_id=admin_user_id,
-                        text=f"📬 Новая заявка #{request_id}\n"
-                             f"От: {request_data['first_name']} {request_data['last_name']}\n"
-                             f"Группа: {request_data['group']}\n"
-                             f"Цель: {request_data['purpose']}\n"
-                             f"Файл: {final_filename}"
-                    )
-                except Exception as e:
-                    print(f"Не удалось отправить уведомление админу: {e}")
-        
+        from bot.utils.config import ADMIN_CHAT_IDS
+
+        for admin_id in ADMIN_CHAT_IDS:
+            try:
+                await context.bot.send_message(
+                    chat_id=admin_id,
+                    text=f"📬 Новая заявка #{request_id}\n"
+                         f"От: {request_data['first_name']} {request_data['last_name']}\n"
+                         f"Группа: {request_data['group']}\n"
+                         f"Цель: {request_data['purpose']}\n"
+                         f"Файл: {final_filename}"
+                )
+            except Exception as e:
+                print(f"Не удалось отправить админу {admin_id}: {e}")
+                
     except Exception as e:
         print(f"Ошибка при обработке заявки: {e}")
         

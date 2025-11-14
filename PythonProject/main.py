@@ -13,7 +13,7 @@ from bot.handlers import user, admin
 from bot.services.local_db import LocalDatabase
 from bot.services.scheduler import SchedulerService
 from bot.utils.states import UserStates, AdminStates
-from bot.utils.config import TELEGRAM_BOT_TOKEN, ADMIN_USERNAME
+from bot.utils.config import TELEGRAM_BOT_TOKEN
 # main.py
 
 from bot.handlers.admin import (
@@ -58,7 +58,7 @@ def main():
     
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
     
-    application.bot_data['admin_username'] = ADMIN_USERNAME
+   
     application.bot_data['groups'] = ['ИВТ-21', 'ИВТ-22', 'ИВТ-23', 'ИВТ-24']
     application.bot_data['purposes'] = ['Учебный проект', 'Курсовая работа', 'Диплом', 'Личное использование', 'Другое']
     
